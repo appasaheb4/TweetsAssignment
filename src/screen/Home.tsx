@@ -10,6 +10,7 @@ import {
 import { Loader } from "react-overlay-loader";
 import { ToastsContainer, ToastsStore } from "react-toasts";
 
+import { TopNavbarComp } from "../components/Navbar";
 
 
 //Custome Files  
@@ -23,19 +24,21 @@ export default function Home( props ) {
     const [ loading, setLoading ] = useState( false );
     const [ user, setUser ] = useState( {} );
 
-
-
     const dispatch = useDispatch();
     const { resLogin } = useSelector( state => state.login );
 
     useEffect( () => {
-        console.log( { user: JSON.parse( localStorage.getItem( "User" ) ) } )
-
-        setUser( JSON.parse( localStorage.getItem( "User" ) ) );
+        let loginSeesionData = localStorage.getItem( "User" );
+        if ( loginSeesionData == null ) {
+            props.history.push( "/login" );
+        } else {
+            setUser( JSON.parse( loginSeesionData ) );
+        }
     }, [] )
 
     return (
         <div>
+            <TopNavbarComp />
             <h1>{ `hi ${ user.societyName }` }</h1>
             <Loader fullPage loading={ loading } />
             <ToastsContainer store={ ToastsStore } />
