@@ -5,17 +5,18 @@ import { all, spawn, call } from 'redux-saga/effects';
 
 // Reducer   
 import loginReducer from "./reducers/login";
+import registerReducer from "./reducers/register";
 
 
 // Watcher
 import { loginWatcher } from "./sagas/login";
+import { registerWatcher } from "./sagas/register";
 
 
 const rootSaga = function* () {
     const sagas = [
-        // login 
         loginWatcher,
-
+        registerWatcher
     ];
 
     yield all(
@@ -36,6 +37,7 @@ const rootSaga = function* () {
 
 const rootReducer = combineReducers( {
     login: loginReducer,
+    register: registerReducer
 } );
 
 const sagaMiddleware = createSagaMiddleware();

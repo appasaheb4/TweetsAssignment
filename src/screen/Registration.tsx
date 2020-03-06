@@ -13,11 +13,13 @@ import { ToastsContainer, ToastsStore } from "react-toasts";
 // css   
 import "../common/Styles.css";
 
+import { checkForUndefined } from "../common/Utilities";
+
 
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { onLogin } from "../redux/actions/login";
+import { onRegister } from "../redux/actions/register";
 
 export default function Registration( props ) {
     const [ loading, setLoading ] = useState( false );
@@ -25,17 +27,39 @@ export default function Registration( props ) {
     const [ input, setInput ] = useState( {} );
 
     const dispatch = useDispatch();
-    const { resLogin } = useSelector( state => state.login );
+    const { resRegister } = useSelector( state => state.register );
+
+
+
 
 
     const click_Registration = ( e: any ) => {
+        e.preventDefault();
+        const data = {
+            date: Math.round( +new Date() / 1000 ),
+            name: e.target.name.value,
+            email: e.target.email.value,
+            phone: e.target.phone.value,
+            password: e.target.confirmPassword.value,
+        }
+        console.log( { data } );
 
+        if ( checkForUndefined( data ) )
+            alert( "Please enter all info." )
+        else
+            dispatch( onRegister( { url: "http://dummy.restapiexample.com/api/v1/create", data: data } ) )
     }
+
+
+    useEffect( () => {
+        if ( resRegister.loading )
+            alert( resRegister.status );
+    }, [ resRegister ] )
 
     return (
         <div className="align-items-center">
             <div className="d-flex justify-content-center" style={ { marginTop: 20 } }>
-                <form onSubmit={ ( e ) => click_Registration( e ) }>
+                <form onSubmit={ click_Registration }>
                     <h3 style={ { textAlign: "center" } }>REGISTRATION FORM</h3>
                     <div className="form-group form-inline">
                         <label className="col-md-3">Name:</label>
@@ -45,7 +69,7 @@ export default function Registration( props ) {
                             placeholder="Name"
                             required
                             onBlur={ ( e ) => {
-                                if ( e.target.value > 0 )
+                                if ( e.target.value.length > 0 )
                                     if ( ( e.target.value ).match( /[a-zA-z-_\s]/g ).length != ( e.target.value ).length ) {
                                         setValidate( { ...validate, name: true } )
                                     } else {
