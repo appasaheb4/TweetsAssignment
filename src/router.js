@@ -23,17 +23,17 @@ const Registration = Loadable( {
 
 const routes = [
     {
+        exact: true,
+        path: "/login",
+        name: "Login",
+        component: Login
+    },
+    {
         exact: false,
         path: "/",
         name: "Dashboard",
         component: Home
     },
-    {
-        exact: true,
-        path: "/login",
-        name: "Login",
-        component: Login
-    }
 ];
 
 export default routes;
