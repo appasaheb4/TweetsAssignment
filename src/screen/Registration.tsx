@@ -21,7 +21,7 @@ import { onLogin } from "../redux/actions/login";
 
 export default function Registration( props ) {
     const [ loading, setLoading ] = useState( false );
-    const [ validate, setValidate ] = useState( { name: false, email: false, phone: false, password: false } );
+    const [ validate, setValidate ] = useState( { name: false, email: false, phone: false, password: false, confPass: false } );
     const [ input, setInput ] = useState( {} );
 
     const dispatch = useDispatch();
@@ -109,9 +109,22 @@ export default function Registration( props ) {
                             placeholder="Password"
                             required
                             onBlur={ ( e ) => {
+                                var minNumberofChars = 6;
+                                var maxNumberofChars = 16;
+                                var regularExpression = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+                                if ( e.target.value.length < minNumberofChars || e.target.value.length > maxNumberofChars ) {
+                                    setValidate( { ...validate, password: true } )
+                                }
+                                else if ( !regularExpression.test( e.target.value ) ) {
+                                    setValidate( { ...validate, password: true } )
+                                }
+                                else
+                                    setValidate( { ...validate, password: false } )
                                 setInput( { ...input, password: e.target.value } )
                             } }
                         />
+                        { validate.password ? ( <h6 className="error">Password should contain atleast one number ,one special character and min length 6.</h6> ) : null }
+                        <div className="clearfix" />
                     </div>
                     <div className="form-group form-inline">
                         <label className="col-md-3">Confirm Password:</label>
@@ -121,16 +134,14 @@ export default function Registration( props ) {
                             placeholder="Password"
                             required
                             onBlur={ ( e ) => {
-
-
                                 if ( input.password != e.target.value || e.target.value == "" ) {
-                                    setValidate( { ...validate, password: true } )
+                                    setValidate( { ...validate, confPass: true } )
                                 } else {
-                                    setValidate( { ...validate, password: false } )
+                                    setValidate( { ...validate, confPass: false } )
                                 }
                             } }
                         />
-                        { validate.password ? ( <h6 className="error">Password must match with confirm password.</h6> ) : null }
+                        { validate.confPass ? ( <h6 className="error">Password must match with confirm password.</h6> ) : null }
                         <div className="clearfix" />
                     </div>
 
