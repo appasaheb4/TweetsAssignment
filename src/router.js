@@ -25,8 +25,8 @@ const routes = [
     {
         exact: false,
         path: "/",
-        name: "Registration",
-        component: Registration
+        name: "Dashboard",
+        component: Home
     },
     {
         exact: true,
