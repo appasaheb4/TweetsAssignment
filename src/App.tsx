@@ -1,5 +1,5 @@
 import React from 'react';
-import "./App.scss";
+import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./redux";
 import { BrowserRouter, Switch, Route } from "react-router-dom";

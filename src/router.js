@@ -15,21 +15,25 @@ const Home = Loadable( {
     loading
 } );
 
+const Registration = Loadable( {
+    loader: () => import( "./screen/Registration" ),
+    loading
+} );
+
 
 const routes = [
+    {
+        exact: false,
+        path: "/",
+        name: "Registration",
+        component: Registration
+    },
     {
         exact: true,
         path: "/login",
         name: "Login",
         component: Login
-    },
-    {
-        exact: false,
-        path: "/",
-        name: "Dashboard",
-        component: Home
     }
-
 ];
 
 export default routes;
